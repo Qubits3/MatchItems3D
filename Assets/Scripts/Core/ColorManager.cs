@@ -30,12 +30,8 @@ public class ColorManager : MonoBehaviour
         SetMaterialColor("M_Sprite", ShaderID.Color, ColorLibrary.colors[index].secondaryColor);
         SetMaterialColor("M_GradientSkyBackground", ShaderID.TopColor, ColorLibrary.colors[index].gradient.colorKeys[0].color);
         SetMaterialColor("M_GradientSkyBackground", ShaderID.BottomColor, ColorLibrary.colors[index].gradient.colorKeys[1].color);
-        SetMaterialColor("M_Cylinder", ShaderID.BaseColor, ColorLibrary.colors[index].cylinderColor);
-        SetMaterialColor("M_Ball", ShaderID.BaseColor, ColorLibrary.colors[index].ballColor);
-        SetMaterialColor("M_Splash", ShaderID.BaseColor, ColorLibrary.colors[index].ballColor);
         SetMaterialColor("M_Special", ShaderID.BaseColor, ColorLibrary.colors[index].ballColor);
         SetMaterialColor("M_Particle", ShaderID.BaseColor, ColorLibrary.colors[index].ballColor);
-        SetMaterialColor("M_Trail", ShaderID.BaseColor, ColorLibrary.colors[index].ballColor);
 
         Resources.UnloadUnusedAssets();
     }
