@@ -3,22 +3,25 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    private Rigidbody rb;
+    public Rigidbody ItemRigidbody { get; private set; }
+    public Collider ItemCollider { get; private set; }
+
+    [SerializeField] int id;
 
     private Vector3 mOffset;
     private float mZCoord;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        ItemRigidbody = GetComponent<Rigidbody>();
+        ItemCollider = GetComponent<Collider>();
     }
 
     void OnMouseDown()
     {
-        rb.useGravity = false;
-
+        ItemRigidbody.isKinematic = true;
         Vector3 position = transform.position;
-        transform.DOMove(new Vector3(position.x, 1.5f, position.z), 0.2f);
+        transform.DOMove(new Vector3(position.x, 8.0f, position.z), 0.2f);
 
         mZCoord = Camera.main.WorldToScreenPoint(position).z;
 
@@ -35,7 +38,7 @@ public class Item : MonoBehaviour
 
     private void OnMouseUp()
     {
-        rb.useGravity = true;
+        ItemRigidbody.isKinematic = false;
     }
 
     private Vector3 GetMouseAsWorldPoint()
@@ -48,5 +51,9 @@ public class Item : MonoBehaviour
         // Convert it to world points
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
-}
 
+    public int GetId()
+    {
+        return id;
+    }
+}

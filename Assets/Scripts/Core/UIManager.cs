@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
 
     private void OnGUI()
     {
-        ((int)(1.0f / Time.smoothDeltaTime)).PrintScreen("FPS");
+        ((int) (1.0f / Time.smoothDeltaTime)).PrintScreen("FPS");
     }
 
     private void Awake()
@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.OnGameFailed += ShowFailedGameUI;
         GameManager.Instance.OnGameFinished += ShowFinishedGameUI;
-        GameManager.Instance.OnSpecialChanged += ShowRewardText;
     }
 
     private void ShowFailedGameUI()

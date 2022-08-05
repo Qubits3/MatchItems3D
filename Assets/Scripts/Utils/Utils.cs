@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DG.Tweening;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -81,6 +82,27 @@ public static class Utils
 #pragma warning disable CS0162 // Unreachable code detected
         return anObject;
 #pragma warning restore CS0162 // Unreachable code detected
+    }
+
+    public static Sequence DOItemTransform(this Item item, Vector3 endPosition, Vector3 endRotation)
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Join(item.transform.DOMove(endPosition, 0.2f));
+        sequence.Join(item.transform.DORotate(endRotation, 0.2f));
+        sequence.Play();
+
+        return sequence;
+    }
+
+    public static Sequence DOItemTransform(this Item item, Vector3 endPosition, Vector3 endRotation, Vector3 endScale)
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Join(item.transform.DOMove(endPosition, 0.2f));
+        sequence.Join(item.transform.DORotate(endRotation, 0.2f));
+        sequence.Join(item.transform.DOScale(endScale, 0.2f));
+        sequence.Play();
+
+        return sequence;
     }
 
     public static List<T> FindInterfaces<T>()

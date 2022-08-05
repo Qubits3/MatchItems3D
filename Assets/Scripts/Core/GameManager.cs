@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,22 +8,17 @@ public class GameManager : TouchMove
 {
     public static GameManager Instance { get; private set; }
 
-    private bool canFollow = true;
-    private bool canRotateCylinder = true;
     private bool isGameStarted = false;
     private bool isGameFinished = false;
     private bool isGameFailed = false;
-    private bool isSpecialActive = false;
 
     public int LastFinishedLevel { get; private set; }
     private int _score;
-    private int specialCount;
 
     public event Action OnGameStart;
     public event Action OnGameFailed;
     public event Action OnGameFinished;
     public event Action<int> OnScoreChanged;
-    public event Action<bool> OnSpecialChanged;
 
     protected override void Awake()
     {
@@ -45,6 +39,9 @@ public class GameManager : TouchMove
         {
             LevelManager.Instance.LoadLastRemainingLevel();
         }
+
+        Application.targetFrameRate = 60;
+        Screen.SetResolution(720, 1280, false);
     }
 
     protected override void OnTouchMoved(CallbackContext context)
@@ -58,8 +55,6 @@ public class GameManager : TouchMove
 
     public void SetGameFailed()
     {
-        canRotateCylinder = false;
-        canFollow = false;
         isGameFailed = true;
 
         OnGameFailed?.Invoke();
@@ -67,9 +62,7 @@ public class GameManager : TouchMove
 
     public void GameFinished()
     {
-        canRotateCylinder = false;
         isGameFinished = true;
-        canFollow = false;
 
         SaveData();
 
@@ -80,26 +73,7 @@ public class GameManager : TouchMove
     {
         if (isGameFailed) return;
 
-        _score += isSpecialActive ? amount * 3 : amount;
-
         OnScoreChanged?.Invoke(_score);
-    }
-
-    public void OnCirclePassed()
-    {
-        AddScore();
-
-        CheckSpecial();
-    }
-
-    private void CheckSpecial()
-    {
-        specialCount++;
-
-        if (specialCount >= 3)
-        {
-            StartCoroutine(SetIsSpecialActive(true));
-        }
     }
 
     public bool CanPlayGame()
@@ -109,27 +83,6 @@ public class GameManager : TouchMove
 
     #region Getters and Setters
 
-    public bool GetIsSpecialActive()
-    {
-        return isSpecialActive;
-    }
-
-    public IEnumerator SetIsSpecialActive(bool value, float waitSeconds = 0.0f)
-    {
-        if (!CanPlayGame()) yield return null;
-
-        OnSpecialChanged?.Invoke(value);
-
-        yield return new WaitForSeconds(waitSeconds);
-
-        if (!value)
-        {
-            specialCount = 0;
-        }
-
-        isSpecialActive = value;
-    }
-
     public bool GetIsGameFailed()
     {
         return isGameFailed;
@@ -138,26 +91,6 @@ public class GameManager : TouchMove
     public bool GetIsGameFinished()
     {
         return isGameFinished;
-    }
-
-    public bool GetCanRotateCylinder()
-    {
-        return canRotateCylinder;
-    }
-
-    public void SetCanRotateCylinder(bool value)
-    {
-        canRotateCylinder = value;
-    }
-
-    public bool GetCanFollow()
-    {
-        return canFollow;
-    }
-
-    public void SetCanFollow(bool value)
-    {
-        canFollow = value;
     }
 
     #endregion
