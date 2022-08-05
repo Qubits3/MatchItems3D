@@ -23,7 +23,7 @@ public class ItemCollector : MonoBehaviour
             {
                 Items[0].ItemRigidbody.constraints = RigidbodyConstraints.FreezePosition;
 
-                Items[0].DOItemTransform(new Vector3(-1.1f, transform.position.y, transform.position.z), Vector3.zero);
+                Items[0].DOItemTransform(new Vector3(-1f, transform.position.y, transform.position.z), Vector3.zero);
             }
             else if (Items.Count == 2)
             {
@@ -31,7 +31,7 @@ public class ItemCollector : MonoBehaviour
                 {
                     Items[1].ItemRigidbody.constraints = RigidbodyConstraints.FreezePosition;
 
-                    Items[1].DOItemTransform(new Vector3(1.1f, transform.position.y, transform.position.z), Vector3.zero).OnComplete(() =>
+                    Items[1].DOItemTransform(new Vector3(1f, transform.position.y, transform.position.z), Vector3.zero).OnComplete(() =>
                     {
                         Sequence sequence = DOTween.Sequence();
 
